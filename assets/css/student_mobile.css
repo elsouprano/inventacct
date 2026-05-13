@@ -1,0 +1,566 @@
+/* =============================================================
+   assets/css/student_mobile.css
+   Mobile/Tablet responsive styles for all student-facing pages
+   Breakpoints: 480px (mobile), 768px (tablet)
+   ============================================================= */
+
+/* ── Global Base ──────────────────────────────────────────────── */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* ── Dashboard Header Mobile ──────────────────────────────────── */
+@media (max-width: 768px) {
+    .dashboard-header {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .dashboard-header .logo { font-size: 1.1em; }
+    .logout-link { font-size: 0.88em; }
+
+    .dashboard-content {
+        padding: 16px !important;
+        max-width: 100% !important;
+    }
+
+    /* Cards grid → single column */
+    .card-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    .dashboard-card {
+        padding: 16px !important;
+        border-radius: 8px !important;
+    }
+
+    /* Buttons inside cards */
+    .dashboard-card .btn,
+    .dashboard-card a.btn {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        min-height: 52px !important;
+        line-height: 52px !important;
+        padding: 0 16px !important;
+        box-sizing: border-box !important;
+        font-size: 1em !important;
+    }
+
+    /* Tap targets */
+    input, select, textarea, button, .btn {
+        min-height: 48px;
+        font-size: 16px !important;
+        box-sizing: border-box;
+    }
+    input[type="checkbox"], input[type="radio"] { min-height: unset; }
+
+    /* Risk / validity banners */
+    .dashboard-card[style*="grid-column"] {
+        grid-column: 1 !important;
+    }
+
+    h1 { font-size: 1.5em; word-break: break-word; }
+    h2 { font-size: 1.2em; }
+    p.subtitle { font-size: 0.9em; }
+}
+
+/* ── Auth Pages ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    /* Outer wrapper */
+    .auth-container,
+    .login-container,
+    [class*="auth"],
+    body > .container {
+        padding: 16px !important;
+    }
+
+    /* Auth card */
+    .auth-card,
+    .login-card,
+    .register-card,
+    .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 12px auto !important;
+        padding: 20px 16px !important;
+        border-radius: 8px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Form rows that stack horizontally → vertical */
+    .form-row {
+        flex-direction: column !important;
+        gap: 0 !important;
+    }
+    .form-row .form-group,
+    .form-row > div {
+        width: 100% !important;
+        flex: none !important;
+    }
+
+    .form-group {
+        margin-bottom: 14px !important;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100% !important;
+        min-height: 48px !important;
+        font-size: 16px !important;
+        padding: 10px 12px !important;
+        box-sizing: border-box !important;
+        border-radius: 6px !important;
+    }
+
+    .btn {
+        display: block !important;
+        width: 100% !important;
+        min-height: 48px !important;
+        font-size: 16px !important;
+        padding: 12px 20px !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .text-center, .form-footer {
+        text-align: center !important;
+        margin-top: 16px !important;
+        font-size: 1em !important;
+    }
+    .text-center a, .form-footer a {
+        display: inline-block;
+        padding: 8px 0;
+        min-height: 44px;
+        line-height: 28px;
+    }
+}
+
+/* ── Inventory Form ───────────────────────────────────────────── */
+
+/* Sticky progress area */
+.progress-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    padding: 10px 16px 8px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 0 !important;
+}
+
+.progress-sticky .progress-bar {
+    margin-bottom: 4px !important;
+}
+
+.time-remaining {
+    text-align: center;
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 3px;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 16px !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        max-width: 100% !important;
+    }
+
+    /* Question blocks */
+    .question-block {
+        padding: 14px 0 14px !important;
+        margin-bottom: 0 !important;
+        border-bottom: 1px solid #eee !important;
+        border: 1px solid #e8ecf0;
+        border-radius: 8px;
+        padding: 14px !important;
+        margin-bottom: 12px !important;
+        background: #fff;
+    }
+    .question-block.unanswered-error {
+        border: 2px solid #dc3545 !important;
+        background: #fff8f8 !important;
+    }
+
+    .question-text {
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+        margin-bottom: 14px !important;
+    }
+
+    /* ── Learning Style → vertical option cards ── */
+    .options:not(.horizontal) {
+        flex-direction: column !important;
+        gap: 0 !important;
+    }
+    .options:not(.horizontal) .radio-wrapper {
+        width: 100% !important;
+        margin-bottom: 8px !important;
+    }
+    .options:not(.horizontal) .radio-wrapper input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0; height: 0;
+    }
+    .options:not(.horizontal) .radio-label {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        min-height: 56px !important;
+        padding: 12px 16px !important;
+        border: 2px solid #dce3ea !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+        cursor: pointer !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        gap: 10px !important;
+        box-sizing: border-box !important;
+        transition: all 0.15s !important;
+    }
+    .options:not(.horizontal) .radio-label::before {
+        content: '';
+        width: 18px; height: 18px;
+        border: 2px solid #aab;
+        border-radius: 50%;
+        flex-shrink: 0;
+        transition: all 0.15s;
+    }
+    .options:not(.horizontal) input[type="radio"]:checked + .radio-label {
+        border-color: var(--primary-color) !important;
+        background: #edf2f9 !important;
+        border-left-width: 5px !important;
+    }
+    .options:not(.horizontal) input[type="radio"]:checked + .radio-label::before {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    /* ── Scale Questions → pill buttons ── */
+    .options.horizontal {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        justify-content: center !important;
+    }
+    .options.horizontal .radio-wrapper {
+        flex: 0 0 auto !important;
+    }
+    .options.horizontal .radio-wrapper input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        width: 0; height: 0;
+    }
+    .options.horizontal .radio-label {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: 44px !important;
+        height: 44px !important;
+        padding: 0 !important;
+        border: 2px solid var(--primary-color) !important;
+        border-radius: 50% !important;
+        background: #fff !important;
+        color: var(--primary-color) !important;
+        font-weight: 700 !important;
+        font-size: 15px !important;
+        cursor: pointer !important;
+        gap: 0 !important;
+        transition: all 0.15s !important;
+        box-sizing: border-box !important;
+    }
+    .options.horizontal input[type="radio"]:checked + .radio-label {
+        background: var(--primary-color) !important;
+        color: #fff !important;
+        border-color: var(--primary-color) !important;
+    }
+
+    /* Scale labels row (added by JS) */
+    .scale-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: #888;
+        margin-top: 6px;
+        padding: 0 2px;
+    }
+
+    /* Scenario text (ARS-30) */
+    .scenario-text, blockquote {
+        display: block;
+        font-style: italic;
+        background: #f8f9fa;
+        border-left: 3px solid #ccc;
+        padding: 10px 14px;
+        border-radius: 0 6px 6px 0;
+        margin: 0 0 14px;
+        font-size: 14px;
+        line-height: 1.6;
+        overflow-wrap: break-word;
+    }
+
+    /* Consent checkbox (Step 1) */
+    .consent-row,
+    label:has(input[type="checkbox"]) {
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        min-height: 48px !important;
+        padding: 8px 0 !important;
+        cursor: pointer !important;
+    }
+    input[type="checkbox"] {
+        width: 22px !important;
+        height: 22px !important;
+        flex-shrink: 0 !important;
+        margin-top: 2px !important;
+        cursor: pointer !important;
+    }
+
+    /* Nav buttons → sticky bottom bar */
+    .nav-buttons {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: #fff !important;
+        padding: 10px 16px !important;
+        border-top: 1px solid #eee !important;
+        z-index: 99 !important;
+        display: flex !important;
+        gap: 10px !important;
+        margin: 0 !important;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.08) !important;
+    }
+    .nav-buttons button,
+    .nav-buttons .btn {
+        flex: 1 !important;
+        min-height: 48px !important;
+        font-size: 16px !important;
+        padding: 0 !important;
+        width: auto !important;
+        margin: 0 !important;
+    }
+    .nav-buttons div:empty { display: none !important; }
+
+    /* Submit button on step 7 */
+    #submit-btn {
+        background: #F5A623 !important;
+        color: #1B3A6B !important;
+        font-weight: 700 !important;
+        min-height: 52px !important;
+    }
+
+    /* Add padding so sticky buttons don't cover last question */
+    #inventory-form {
+        padding-bottom: 80px !important;
+    }
+
+    /* Validation error message */
+    #validation-msg {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 10px 14px;
+        border-radius: 6px;
+        margin: 8px 0;
+        font-size: 0.9em;
+        display: none;
+    }
+    #validation-msg.visible { display: block; }
+
+    /* Draft notice */
+    #draft-saved-notice {
+        position: static !important;
+        display: block !important;
+        text-align: center !important;
+        margin-top: 4px !important;
+        font-size: 0.8em !important;
+        color: #28a745 !important;
+        height: 18px;
+    }
+}
+
+@media (max-width: 380px) {
+    /* Very small phones: pill buttons wrap to 2 rows naturally */
+    .options.horizontal .radio-label {
+        min-width: 40px !important;
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 13px !important;
+    }
+}
+
+/* ── inventory_view.php Tabs ──────────────────────────────────── */
+@media (max-width: 768px) {
+    .tabs {
+        overflow-x: auto !important;
+        flex-wrap: nowrap !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        padding-bottom: 2px !important;
+        gap: 2px !important;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+        min-width: 90px !important;
+        height: 44px !important;
+        padding: 0 12px !important;
+        font-size: 0.85em !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+    }
+    .tab.active {
+        border-bottom-color: #F5A623 !important;
+        color: var(--primary-color) !important;
+    }
+
+    .answer-list li {
+        display: block !important;
+        padding: 12px 0 !important;
+    }
+    .answer-list li strong {
+        display: block !important;
+        margin-bottom: 4px !important;
+        color: #444 !important;
+        font-size: 0.9em !important;
+    }
+    .answer-list li span {
+        display: block !important;
+        margin-left: 0 !important;
+        font-weight: 700 !important;
+        color: var(--primary-color) !important;
+    }
+
+    .tab-content {
+        padding: 14px !important;
+    }
+}
+
+/* ── Submission Confirm Modal ─────────────────────────────────── */
+.submit-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+}
+.submit-modal-overlay.active { display: flex; }
+.submit-modal {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 90%;
+    max-width: 440px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+.submit-modal-header {
+    background: var(--primary-color);
+    color: #fff;
+    padding: 20px 24px;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+.submit-modal-body {
+    padding: 20px 24px;
+    font-size: 0.95em;
+    color: #444;
+    line-height: 1.7;
+}
+.submit-modal-body .check-item {
+    color: #155724;
+    font-weight: 600;
+    margin: 6px 0;
+}
+.submit-modal-footer {
+    padding: 16px 24px;
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid #eee;
+}
+@media (max-width: 480px) {
+    .submit-modal {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 16px 16px 0 0 !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    .submit-modal-overlay { align-items: flex-end !important; }
+    .submit-modal-footer { flex-direction: column !important; }
+    .submit-modal-footer .btn { width: 100% !important; min-height: 48px !important; }
+}
+
+/* ── Thank You Page ───────────────────────────────────────────── */
+.thankyou-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4f6f9;
+    padding: 24px 16px;
+}
+.thankyou-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px 32px;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+.checkmark-circle {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: #d4edda;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 2.5em;
+}
+.thankyou-card h1 {
+    color: var(--primary-color);
+    font-size: 1.6em;
+    margin-bottom: 12px;
+}
+.thankyou-card p {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+.risk-message-box {
+    background: #f0f4f8;
+    border-left: 4px solid var(--primary-color);
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+    text-align: left;
+    margin: 16px 0;
+    font-size: 0.92em;
+    line-height: 1.6;
+}
+.thankyou-contact {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 0.88em;
+    color: #555;
+    margin: 16px 0;
+}
+.countdown-text {
+    font-size: 0.82em;
+    color: #aaa;
+    margin-top: 16px;
+}
+@media (max-width: 480px) {
+    .thankyou-card { padding: 28px 16px; }
+    .thankyou-card h1 { font-size: 1.3em; }
+}
