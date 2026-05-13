@@ -34,11 +34,29 @@ $is_submitted = $submission && $submission['is_complete'] == 1;
 $submitted_at = $submission['submitted_at'] ?? null;
 
 // Period + Draft state
-$active_period = $pdo->query("SELECT * FROM inventory_periods WHERE is_active = 1 LIMIT 1")->fetch();
-$now = time();
-$period_open  = $active_period ? strtotime($active_period['open_date'])  : null;
-$period_close = $active_period ? strtotime($active_period['close_date']) : null;
-$period_is_open = $active_period && $now >= $period_open && $now <= $period_close;
+date_default_timezone_set('Asia/Manila');
+$now = new DateTime('now');
+
+$stmt_p = $pdo->prepare("SELECT * FROM inventory_periods WHERE is_active = 1 LIMIT 1");
+$stmt_p->execute();
+$active_period = $stmt_p->fetch(PDO::FETCH_ASSOC);
+
+$periodStatus = 'none';
+$period_open = null;
+$period_close = null;
+
+if ($active_period) {
+    $period_open = new DateTime($active_period['open_date']);
+    $period_close = new DateTime($active_period['close_date']);
+    
+    if ($now < $period_open) {
+        $periodStatus = 'upcoming';
+    } elseif ($now >= $period_open && $now <= $period_close) {
+        $periodStatus = 'open';
+    } else {
+        $periodStatus = 'closed';
+    }
+}
 
 $draft = null;
 if (!$is_submitted) {
@@ -126,12 +144,12 @@ if (!$is_submitted) {
                         Date: <?php echo date('F d, Y h:i A', strtotime($submitted_at)); ?>
                     </p>
                     <a href="inventory_view.php" class="btn btn-accent" style="display: inline-block; width: auto; padding: 10px 20px;">View My Submission</a>
-                <?php elseif (!$active_period): ?>
+                <?php elseif ($periodStatus === 'none'): ?>
                     <p style="color:#888;">No active inventory period. Check back later.</p>
-                <?php elseif ($now < $period_open): ?>
+                <?php elseif ($periodStatus === 'upcoming'): ?>
                     <p style="color:#555;">The inventory period has not started yet.</p>
-                    <p style="font-size:0.9em;color:#888;">Opens on <strong><?php echo date('F d, Y h:i A', $period_open); ?></strong></p>
-                <?php elseif ($now > $period_close): ?>
+                    <p style="font-size:0.9em;color:#888;">Opens on <strong><?php echo $period_open->format('F d, Y h:i A'); ?></strong></p>
+                <?php elseif ($periodStatus === 'closed'): ?>
                     <p style="color:#888;">The submission period has closed. Please contact the Guidance Office if you have concerns.</p>
                 <?php elseif ($draft): ?>
                     <?php
@@ -141,11 +159,11 @@ if (!$is_submitted) {
                         else $saved_str = floor($diff/3600) . ' hour' . (floor($diff/3600)!==1?'s':'') . ' ago';
                     ?>
                     <p style="font-size:0.85em;color:#28a745;margin-bottom:6px;">📂 Draft saved <?php echo $saved_str; ?> &bull; Step <?php echo $draft['current_step']; ?> of 7</p>
-                    <p style="font-size:0.85em;color:#856404;margin-bottom:15px;">Closes on <strong><?php echo date('F d, Y h:i A', $period_close); ?></strong></p>
+                    <p style="font-size:0.85em;color:#856404;margin-bottom:15px;">Closes on <strong><?php echo $period_close->format('F d, Y h:i A'); ?></strong></p>
                     <a href="inventory.php" class="btn" style="display: inline-block; width: auto; padding: 10px 20px;">Continue Inventory</a>
                 <?php else: ?>
                     <p style="margin-bottom:6px;">Please complete your Individual Inventory form.</p>
-                    <p style="font-size:0.85em;color:#856404;margin-bottom:15px;">Closes on <strong><?php echo date('F d, Y h:i A', $period_close); ?></strong></p>
+                    <p style="font-size:0.85em;color:#856404;margin-bottom:15px;">Closes on <strong><?php echo $period_close->format('F d, Y h:i A'); ?></strong></p>
                     <a href="inventory.php" class="btn" style="display: inline-block; width: auto; padding: 10px 20px;">Start Inventory</a>
                 <?php endif; ?>
             </div>

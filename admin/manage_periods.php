@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once '../config/db.php';
+date_default_timezone_set('Asia/Manila');
+
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../auth/login.php");

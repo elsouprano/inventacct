@@ -19,18 +19,36 @@ if ($submission && $submission['is_complete'] == 1) {
 
 // --- Submission Window Check ---
 require_once '../config/app_config.php';
-$active_period = $pdo->query("SELECT * FROM inventory_periods WHERE is_active = 1 LIMIT 1")->fetch();
-$now = time();
-$period_open   = $active_period ? strtotime($active_period['open_date'])  : null;
-$period_close  = $active_period ? strtotime($active_period['close_date']) : null;
-$within_window = $active_period && $now >= $period_open && $now <= $period_close;
+date_default_timezone_set('Asia/Manila');
+$now = new DateTime('now');
 
-if (!$within_window) {
+$stmt_p = $pdo->prepare("SELECT * FROM inventory_periods WHERE is_active = 1 LIMIT 1");
+$stmt_p->execute();
+$active_period = $stmt_p->fetch(PDO::FETCH_ASSOC);
+
+$periodStatus = 'none';
+$period_open = null;
+$period_close = null;
+
+if ($active_period) {
+    $period_open = new DateTime($active_period['open_date']);
+    $period_close = new DateTime($active_period['close_date']);
+    
+    if ($now < $period_open) {
+        $periodStatus = 'upcoming';
+    } elseif ($now >= $period_open && $now <= $period_close) {
+        $periodStatus = 'open';
+    } else {
+        $periodStatus = 'closed';
+    }
+}
+
+if ($periodStatus !== 'open') {
     // Determine message
-    if (!$active_period) {
+    if ($periodStatus === 'none') {
         $window_msg = "No inventory period is currently scheduled. Please check back later.";
-    } elseif ($now < $period_open) {
-        $window_msg = "The inventory period has not started yet. It will open on " . date('F d, Y \a\t h:i A', $period_open) . ".";
+    } elseif ($periodStatus === 'upcoming') {
+        $window_msg = "The inventory period has not started yet. It will open on " . $period_open->format('F d, Y \a\t h:i A') . ".";
     } else {
         $window_msg = "The inventory submission period has closed. Please contact the Guidance Office if you have concerns.";
     }
@@ -342,7 +360,7 @@ $step_titles = [
             </div>
             <?php endif; ?>
             <div style="background:#d4edda;color:#155724;padding:6px 12px;border-radius:6px;margin-bottom:8px;font-size:0.82em;">
-                🕐 Closes <strong><?php echo date('M d, Y h:i A', $period_close); ?></strong> · Auto-saved
+                🕐 Closes <strong><?php echo $period_close->format('M d, Y h:i A'); ?></strong> · Auto-saved
             </div>
             <div class="progress-info" style="text-align:center;margin-bottom:4px;font-size:0.88em;position:relative;">
                 Step <?php echo $step; ?> of 7 — <strong><?php echo $step_titles[$step]; ?></strong>
